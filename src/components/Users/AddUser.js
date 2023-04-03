@@ -7,13 +7,13 @@ import classes from './AddUser.module.css';
 import Wrappers from '../Helpers/Wrappers';
 
 const AddUser = (props) => {
-  const [enteredUsername, setEnteredUsername] = useState('');
+  const [enteredName, setEnteredUsername] = useState('');
   const [enteredAge, setEnteredAge] = useState('');
   const [error, setError] = useState();
 
   const addUserHandler = (event) => {
     event.preventDefault();
-    if (enteredUsername.trim().length === 0 || enteredAge.trim().length === 0) {
+    if (enteredName.trim().length === 0 || enteredAge.trim().length === 0) {
       setError({
         title: 'Invalid input',
         message: 'Please enter a valid name and age (non-empty values).',
@@ -27,12 +27,12 @@ const AddUser = (props) => {
       });
       return;
     }
-    props.onAddUser(enteredUsername, enteredAge);
+    props.onAddUser(enteredName, enteredAge);
     setEnteredUsername('');
     setEnteredAge('');
   };
 
-  const usernameChangeHandler = (event) => {
+  const nameChangeHandler = (event) => {
     setEnteredUsername(event.target.value);
   };
 
@@ -59,8 +59,8 @@ const AddUser = (props) => {
           <input
             id="username"
             type="text"
-            value={enteredUsername}
-            onChange={usernameChangeHandler}
+            value={enteredName}
+            onChange={nameChangeHandler}
           />
           <label htmlFor="age">Age (Years)</label>
           <input
