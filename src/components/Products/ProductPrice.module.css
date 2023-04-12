@@ -1,0 +1,10 @@
+.price {
+    margin: 2rem auto;
+    width: 90%;
+    max-width: 40rem;
+  }
+  
+  .price div {
+    list-style: none;
+    padding: 1rem;
+  }

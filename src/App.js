@@ -1,24 +1,47 @@
 import React, { useState, Fragment } from 'react';
-
-import AddUser from './components/Users/AddUser';
-import UsersList from './components/Users/UsersList';
+import ProductsList from './components/Products/ProductsList';
+import AddProduct from './components/Products/AddProduct';
+import ProductPrice from './components/Products/ProductsPrice';
 
 function App() {
-  const [usersList, setUsersList] = useState([]);
+  const [productsList, setProductsList] = useState([]);
+  const[totalPrice, setTotalPrice] = useState(Number(0));
 
-  const addUserHandler = (uName, uAge, uCollege) => {
-    setUsersList((prevUsersList) => {
+  const addUserHandler = (pId, pPrice, pName) => {
+    const productDetail = {id: pId, price: pPrice, name: pName, key_id: Math.random().toString()}
+    setProductsList((prevProductsList) => {
       return [
-        ...prevUsersList,
-        { name: uName, age: uAge, college: uCollege, id: Math.random().toString() },
+        ...prevProductsList, productDetail
       ];
+    });
+     
+    localStorage.setItem(pId, JSON.stringify(productDetail));
+
+    setTotalPrice((prevTotalPrice) => {
+      const finalPrice = Number(prevTotalPrice)+Number(pPrice);
+      return finalPrice;
     });
   };
 
+
+  const deleteProductHandler = (productId, productPrice) => {
+    setProductsList((prevProductsList) => {
+      return prevProductsList.filter(product => product.id !== productId)
+    });
+
+    localStorage.removeItem(productId);
+
+    setTotalPrice((prevTotalPrice) => {
+      const finalPrice = Number(prevTotalPrice)-Number(productPrice);
+      return finalPrice;
+    });
+  }
+
   return (
     <Fragment>
-      <AddUser onAddUser={addUserHandler} />
-      <UsersList users={usersList} />
+      <AddProduct onAddProduct={addUserHandler}/>
+      <ProductsList products={productsList} onDeleteProduct={deleteProductHandler} />
+      <ProductPrice price={totalPrice}/>
     </Fragment>
   );
 }
